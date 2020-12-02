@@ -20,9 +20,7 @@ Add the following action inside `.github/workflows/export-size.yml`
 name: Export Size
 on:
   pull_request:
-    branches:
-      - main
-      - master
+    branches: [master, develop, OTHER_BRANCHES]
 
 jobs:
   size:
