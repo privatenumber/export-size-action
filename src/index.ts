@@ -27,18 +27,18 @@ async function fetchPreviousComment(
   return commnets.find(comment => comment.body.startsWith(COMMNET_HEADING))
 }
 
-function getOptions(): Options & { token: string; commentToken: string } {
+function getOptions(): Options & { token: string; commenterToken?: string } {
   assert(process.env.GITHUB_TOKEN, 'Environment variable "GITHUB_TOKEN" missing')
   return {
     token: process.env.GITHUB_TOKEN,
-    commentToken: getInput('comment_token'),
+    commenterToken: process.env.COMMENTER_TOKEN,
     paths: (getInput('paths') || '.').split(','),
     buildScript: getInput('build_script') || 'npm run build',
   }
 }
 
 async function compareToRef(ref: string, pr?: Pull, repo?: Repo) {
-  const { token, commentToken, ...options } = getOptions()
+  const { token, commenterToken, ...options } = getOptions()
 
   console.log('Options', options)
 
@@ -53,7 +53,7 @@ async function compareToRef(ref: string, pr?: Pull, repo?: Repo) {
 
   if (pr && repo) {
     const comment = await fetchPreviousComment(octokit, repo, pr)
-    const commenter = commentToken ? getOctokit(commentToken) : octokit
+    const commenter = commenterToken ? getOctokit(commenterToken) : octokit
 
     try {
       if (!comment) {

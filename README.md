@@ -41,3 +41,9 @@ jobs:
     with:
       paths: package/core,package/foo
 ```
+
+### Options
+
+#### Environment variables
+- `GITHUB_TOKEN`* - The GitHub token to access the repo with. You should pass in `secrets.GITHUB_TOKEN`
+- `COMMENTER_TOKEN` - The GitHub token to post the size-report comment with. If this is unspecified, the comment is made by @github-actions.
