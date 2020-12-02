@@ -1,4 +1,4 @@
 export interface Options {
-  paths: string[]
+  packagePaths: string[]
   buildScript: string
 }

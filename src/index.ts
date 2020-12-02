@@ -32,7 +32,7 @@ function getOptions(): Options & { token: string; commenterToken?: string } {
   return {
     token: process.env.GITHUB_TOKEN,
     commenterToken: process.env.COMMENTER_TOKEN,
-    paths: (getInput('paths') || '.').split(','),
+    packagePaths: (getInput('package-paths') || '.').split(',').map(s => s.trim()),
     buildScript: getInput('build_script') || 'npm run build',
   }
 }

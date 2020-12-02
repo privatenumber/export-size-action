@@ -39,7 +39,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     with:
-      paths: package/core,package/foo
+      package-paths: package/core, package/foo
 ```
 
 ### Options

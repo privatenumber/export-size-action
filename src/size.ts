@@ -24,7 +24,7 @@ export async function buildAndGetSize(ref: string | null, options: Options): Pro
   await exec(options.buildScript)
 
   return await Promise.all(
-    options.paths.map(async(path) => {
+    options.packagePaths.map(async(path) => {
       if (!path.startsWith('.'))
         path = `./${path}`
 
