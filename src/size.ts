@@ -38,12 +38,12 @@ export async function buildAndGetSize(ref: string | null, options: Options): Pro
   )
 }
 
-export function formatCompareTable(base: Packages, current: Packages): string {
+export function formatCompareTable(headExportSizes: Packages, baseExportSizes: Packages): string {
   let body = ''
   let unchangedBody = ''
 
-  for (const pkg of base) {
-    const cPkg = current.find(i => i.meta.name === pkg.meta.name)
+  for (const pkg of headExportSizes) {
+    const cPkg = baseExportSizes.find(i => i.meta.name === pkg.meta.name)
 
     const exports = pkg.exports
       .map(({ minzipped: baseSize, name }) => {
