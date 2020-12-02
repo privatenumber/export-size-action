@@ -80,7 +80,7 @@ async function compareToRef(ref: string, pr?: Pull, repo?: Repo) {
   }
 }
 
-async function run() {
+(async() => {
   const pr = context.payload.pull_request
 
   try {
@@ -93,6 +93,4 @@ async function run() {
     console.error(error)
     setFailed(error)
   }
-}
-
-run()
+})()
