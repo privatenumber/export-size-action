@@ -46,10 +46,12 @@ async function compareToRef(ref: string, pr?: Pull, repo?: Repo) {
 
   let body = `${COMMNET_HEADING}\n\n`
 
-  const base = await buildAndGetSize(null, options)
-  const current = await buildAndGetSize(ref, options)
+  const headExportSizes = await buildAndGetSize(null, options)
+  const baseExportSizes = await buildAndGetSize(ref, options)
 
-  body += formatCompareTable(base, current)
+  console.log({headExportSizes, baseExportSizes})
+
+  body += formatCompareTable(headExportSizes, baseExportSizes)
 
   if (pr && repo) {
     const comment = await fetchPreviousComment(octokit, repo, pr)
