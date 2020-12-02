@@ -49,6 +49,13 @@ async function compareToRef(ref: string, pr?: Pull, repo?: Repo) {
 
   const headExportSizes = await buildAndGetSize(null, options)
 
+  try {
+    await exec(`git fetch origin ${ref} --depth=1`)
+  }
+  catch (error) {
+    console.log('Fetch failed', error.message)
+  }
+
   console.log(await exec(`git diff-index --quiet origin/${ref}`))
 
   const baseExportSizes = await buildAndGetSize(ref, options)
