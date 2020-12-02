@@ -29,7 +29,8 @@
   "lint-staged": {
     "src/*.{ts,js}": [
       "eslint --fix",
-      "npm run build"
+      "npm run build",
+      "git add dist"
     ]
   },
   "files": [
