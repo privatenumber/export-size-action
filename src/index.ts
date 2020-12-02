@@ -53,18 +53,18 @@ async function compareToRef(ref: string, pr?: Pull, repo?: Repo) {
 
   if (pr && repo) {
     const comment = await fetchPreviousComment(octokit, repo, pr)
-    const commentter = commentToken ? getOctokit(commentToken) : octokit
+    const commenter = commentToken ? getOctokit(commentToken) : octokit
 
     try {
       if (!comment) {
-        await commentter.issues.createComment({
+        await commenter.issues.createComment({
           ...repo,
           issue_number: pr.number,
           body,
         })
       }
       else {
-        await commentter.issues.updateComment({
+        await commenter.issues.updateComment({
           ...repo,
           comment_id: comment.id,
           body,
