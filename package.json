@@ -27,7 +27,10 @@
     }
   },
   "lint-staged": {
-    "*.{ts,js}": "eslint --fix"
+    "*.{ts,js}": [
+      "eslint --fix",
+      "npm run build"
+    ]
   },
   "files": [
     "dist"
