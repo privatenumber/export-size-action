@@ -27,10 +27,7 @@
     }
   },
   "lint-staged": {
-    "*.{ts,js}": [
-      "eslint --fix",
-      "git add"
-    ]
+    "*.{ts,js}": "eslint --fix"
   },
   "files": [
     "dist"
@@ -41,14 +38,14 @@
     "@actions/github": "^4.0.0",
     "@antfu/eslint-config-ts": "^0.4.3",
     "@types/markdown-table": "^2.0.0",
-    "@types/node": "^14.14.6",
-    "@zeit/ncc": "^0.22.3",
-    "eslint": "^7.12.1",
-    "export-size": "^0.3.8",
+    "@types/node": "^14.14.10",
+    "@vercel/ncc": "^0.25.1",
+    "eslint": "^7.14.0",
+    "export-size": "^0.4.0",
     "has-yarn": "^2.1.0",
     "husky": "^4.3.0",
-    "lint-staged": "^10.5.1",
+    "lint-staged": "^10.5.2",
     "markdown-table": "^2.0.0",
-    "typescript": "^4.0.5"
+    "typescript": "^4.1.2"
   }
 }
