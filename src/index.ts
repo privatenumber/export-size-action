@@ -1,3 +1,4 @@
+import assert from 'assert'
 import { getInput, setFailed } from '@actions/core'
 import { context, getOctokit } from '@actions/github'
 import { Context } from '@actions/github/lib/context'
@@ -27,8 +28,9 @@ async function fetchPreviousComment(
 }
 
 function getOptions(): Options & { token: string; commentToken: string } {
+  assert(process.env.GITHUB_TOKEN, 'Environment variable "GITHUB_TOKEN" missing')
   return {
-    token: getInput('github_token'),
+    token: process.env.GITHUB_TOKEN,
     commentToken: getInput('comment_token'),
     paths: (getInput('paths') || '.').split(','),
     buildScript: getInput('build_script') || 'npm run build',

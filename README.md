@@ -28,15 +28,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: antfu/export-size-action@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 #### Monorepo
 
 ```yaml
   - uses: antfu/export-size-action@v1
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     with:
-      github_token: ${{ secrets.GITHUB_TOKEN }}
       paths: package/core,package/foo
 ```
