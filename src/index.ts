@@ -3,6 +3,7 @@ import { getInput, setFailed } from '@actions/core'
 import { context, getOctokit } from '@actions/github'
 import { Context } from '@actions/github/lib/context'
 import { WebhookPayload } from '@actions/github/lib/interfaces'
+import { exec } from '@actions/exec'
 import { buildAndGetSize, formatCompareTable } from './size'
 import { Options } from './types'
 
@@ -47,12 +48,15 @@ async function compareToRef(ref: string, pr?: Pull, repo?: Repo) {
   let body = `${COMMNET_HEADING}\n\n`
 
   const headExportSizes = await buildAndGetSize(null, options)
+
+  console.log(await exec(`git diff-index --quiet origin/${ref}`))
+
   const baseExportSizes = await buildAndGetSize(ref, options)
 
-  console.log({
-    headExportSizes: JSON.stringify(headExportSizes, null, 4),
-    baseExportSizes: JSON.stringify(baseExportSizes, null, 4),
-  })
+  console.log(JSON.stringify({
+    headExportSizes,
+    baseExportSizes,
+  }, null, 4))
 
   body += formatCompareTable(headExportSizes, baseExportSizes)
 
