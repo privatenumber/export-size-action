@@ -16,7 +16,7 @@
   },
   "scripts": {
     "watch": "npm run build -- --watch",
-    "build": "ncc build src/index.ts -o dist -s",
+    "build": "ncc build src/index.ts -o dist -s && :",
     "release": "npx bumpp --commit --push --tag",
     "lint": "eslint \"{src,test}/**/*.ts\"",
     "lint:fix": "npm run lint -- --fix"
@@ -27,7 +27,7 @@
     }
   },
   "lint-staged": {
-    "*.{ts,js}": [
+    "src/*.{ts,js}": [
       "eslint --fix",
       "npm run build"
     ]

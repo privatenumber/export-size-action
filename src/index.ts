@@ -10,7 +10,7 @@ type GitHub = ReturnType<typeof getOctokit>
 type Repo = Context['repo']
 type Pull = WebhookPayload['pull_request']
 
-const COMMNET_HEADING = '## [Export Size](https://github.com/antfu/export-size)'
+const COMMNET_HEADING = '### 📊 Size report'
 
 async function fetchPreviousComment(
   octokit: GitHub,
@@ -49,7 +49,7 @@ async function compareToRef(ref: string, pr?: Pull, repo?: Repo) {
   const headExportSizes = await buildAndGetSize(null, options)
   const baseExportSizes = await buildAndGetSize(ref, options)
 
-  console.log({headExportSizes, baseExportSizes})
+  console.log({ headExportSizes, baseExportSizes })
 
   body += formatCompareTable(headExportSizes, baseExportSizes)
 
