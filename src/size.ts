@@ -26,8 +26,9 @@ export async function buildAndGetSize(ref: string | null, options: Options): Pro
 
   return await Promise.all(
     options.packagePaths.map(async(pkgPath) => {
-      pkgPath = path.resolve(cwd, pkgPath)
-
+      console.log('before', { pkgPath })
+      pkgPath = path.join(cwd, pkgPath)
+      console.log('after', { pkgPath })
       const size = await getExportsSize({
         pkg: pkgPath,
         bundler: 'rollup',
