@@ -67,10 +67,11 @@ async function compareToRef(ref: string, pr?: Pull, repo?: Repo) {
   const headExportSizes = await buildAndGetSize(null, options)
   let baseExportSizes
 
-  if (await isBaseDiffFromHead(ref))
-    baseExportSizes = await buildAndGetSize(ref, options)
-  else
+  if (await isBaseDiffFromHead(ref)) { baseExportSizes = await buildAndGetSize(ref, options) }
+  else {
+    console.log(`HEAD is identical to BASE ("${ref}")`)
     baseExportSizes = headExportSizes
+  }
 
   console.log(JSON.stringify({
     headExportSizes,
