@@ -8,16 +8,8 @@ type Awaited<T> = T extends Promise<infer A> ? A : never
 type Packages = Awaited<ReturnType<typeof getExportsSize>>[]
 
 export async function buildAndGetSize(ref: string | null, options: Options): Promise<Packages> {
-  if (ref) {
-    try {
-      await exec(`git fetch origin ${ref} --depth=1`)
-    }
-    catch (error) {
-      console.log('Fetch failed', error.message)
-    }
-
+  if (ref)
     await exec(`git checkout -f ${ref}`)
-  }
 
   await exec('npx -p @antfu/ni nci')
 

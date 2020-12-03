@@ -38,6 +38,23 @@ function getOptions(): Options & { token: string; commenterToken?: string } {
   }
 }
 
+async function isBaseDiffFromHead(baseRef: string) {
+  try {
+    await exec(`git fetch origin ${baseRef} --depth=1`)
+  }
+  catch (error) {
+    console.log('Fetch failed', error.message)
+  }
+
+  try {
+    await exec(`git diff-index --quiet origin/${baseRef}`)
+    return false
+  }
+  catch {
+    return true
+  }
+}
+
 async function compareToRef(ref: string, pr?: Pull, repo?: Repo) {
   const { token, commenterToken, ...options } = getOptions()
 
@@ -48,17 +65,12 @@ async function compareToRef(ref: string, pr?: Pull, repo?: Repo) {
   let body = `${COMMNET_HEADING}\n\n`
 
   const headExportSizes = await buildAndGetSize(null, options)
+  let baseExportSizes
 
-  try {
-    await exec(`git fetch origin ${ref} --depth=1`)
-  }
-  catch (error) {
-    console.log('Fetch failed', error.message)
-  }
-
-  console.log(await exec(`git diff-index --quiet origin/${ref}`))
-
-  const baseExportSizes = await buildAndGetSize(ref, options)
+  if (await isBaseDiffFromHead(ref))
+    baseExportSizes = await buildAndGetSize(ref, options)
+  else
+    baseExportSizes = headExportSizes
 
   console.log(JSON.stringify({
     headExportSizes,
