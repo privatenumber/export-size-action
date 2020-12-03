@@ -10,13 +10,15 @@ type Awaited<T> = T extends Promise<infer A> ? A : never
 type Packages = Awaited<ReturnType<typeof getExportsSize>>[]
 
 export async function buildAndGetSize(ref: string | null, options: Options): Promise<Packages> {
-  let cwd = '.'
+  let cwd = process.cwd()
   if (ref) {
     const tempDir = await createTempDirectory()
     console.log({ tempDir })
     await exec(`git --work-tree="${tempDir}" checkout -f ${ref} -- .`)
     cwd = tempDir
   }
+
+  console.log({ cwd })
 
   await exec('npx', ['-p', '@antfu/ni', 'nci'], { cwd })
 
