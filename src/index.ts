@@ -59,6 +59,7 @@ async function compareToRef(ref: string, pr?: Pull, repo?: Repo) {
   const { token, commenterToken, ...options } = getOptions()
 
   console.log('Options', options)
+  console.log('current directory', process.cwd())
 
   const octokit = getOctokit(token)
 
