@@ -1,4 +1,6 @@
+import path from 'path'
 import { exec } from '@actions/exec'
+import { createTempDirectory } from '@actions/cache/lib/internal/cacheUtils'
 import { getExportsSize } from 'export-size'
 import readableSize from 'filesize'
 import table from 'markdown-table'
@@ -8,20 +10,24 @@ type Awaited<T> = T extends Promise<infer A> ? A : never
 type Packages = Awaited<ReturnType<typeof getExportsSize>>[]
 
 export async function buildAndGetSize(ref: string | null, options: Options): Promise<Packages> {
-  if (ref)
-    await exec(`git checkout -f ${ref}`)
+  let cwd = '.'
+  if (ref) {
+    const tempDir = await createTempDirectory()
+    console.log({ tempDir })
+    await exec(`git --work-tree="${tempDir}" checkout -f ${ref} -- .`)
+    cwd = tempDir
+  }
 
-  await exec('npx -p @antfu/ni nci')
+  await exec('npx', ['-p', '@antfu/ni', 'nci'], { cwd })
 
-  await exec(options.buildScript)
+  await exec(options.buildScript, [], { cwd })
 
   return await Promise.all(
-    options.packagePaths.map(async(path) => {
-      if (!path.startsWith('.'))
-        path = `./${path}`
+    options.packagePaths.map(async(pkgPath) => {
+      pkgPath = path.resolve(cwd, pkgPath)
 
       const size = await getExportsSize({
-        pkg: path,
+        pkg: pkgPath,
         bundler: 'rollup',
       })
 
